@@ -1,0 +1,184 @@
+
+class SpiderRobot : DescentDrone replaces PainElemental
+{
+	DroneArm armFL, armFR, armBL, armBR;
+
+	Default
+	{
+		Health 130;
+		Radius 30;
+		Height 45;
+		Mass 800;
+		Speed 2.5;
+		DropItem "MiniSpider", 100, 1;
+		DropItem "MiniSpider", 80, 2;
+		DropItem "MiniSpider", 50, 4;
+
+		PainChance 64;
+		
+		AttackSound "Drone/Fire";
+		SeeSound "SpiderBot/See";
+		
+		DescentEnemy.turnSpeed 6.0;
+		DescentEnemy.MoveFriction 0.03;
+		DescentDrone.HeightOffs 25;
+		DescentEnemy.Aggression 0.1;
+		DescentEnemy.ScorePoints 600;
+		DescentEnemy.DodgeChance 40;
+	}
+	
+	override void SetupWeapons()
+	{
+		vector3 armsPivot = (0,0,0);
+		vector3 armOffs = (20, 20, 12);
+		
+		armFL = DroneArm.SetupArms(self, "SpiderBotArm_FL", armsPivot, ( armOffs.x,  armOffs.y, armOffs.z));
+		armFR = DroneArm.SetupArms(self, "SpiderBotArm_FR", armsPivot, ( armOffs.x, -armOffs.y, armOffs.z));
+		armBL = DroneArm.SetupArms(self, "SpiderBotArm_BL", armsPivot, (-armOffs.x,  armOffs.y, armOffs.z));
+		armBR = DroneArm.SetupArms(self, "SpiderBotArm_BR", armsPivot, (-armOffs.x, -armOffs.y, armOffs.z));
+	
+		equipWeapon(1, "C1DroneWeapon", 30, -5,  -5, "RedMuzzleFlash", tag:"pulse rock cutter #1"); 
+		equipWeapon(2, "C1DroneWeapon", 30,  5,  -5, "RedMuzzleFlash", tag:"pulse rock cutter #2");
+		equipWeapon(3, "C1DroneWeapon", 30,  0, -10, "RedMuzzleFlash", tag:"pulse rock cutter #3");
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL A 10 A_DescentLook(lookFOV:160);
+		Loop;
+		
+		See:
+			MODL A 1 A_PlaySeeSound();
+		Chase:
+			MODL A 3 A_DescentChase(50, 1024, 256, 26);
+		Loop;
+			
+		Attack:
+			MODL A 4 A_FireWeapons(randompick[C1DWRNG](1,3), (0,3,3));
+			MODL A 8 A_RandomRefire(30);
+		goto Chase;
+			
+		Pain:
+			MODL A 6 A_DamageRecoil(2);
+		Goto Spawn;
+		
+		Death:
+			MODL AAAAAAAAAAAAAAAAAAA 1 
+			{
+				A_DamageRecoil(3);
+				RandomExplosions(4, radius);
+			}
+			TNT1 A 0 
+			{
+				armFL.Eject();
+				armFR.Eject();
+				armBL.Eject();
+				armBR.Eject();
+				A_DropItems();
+			}
+			MODL A 4 Spawn("EnemyExplosion", pos);
+		Stop;
+	}
+}
+
+class SpiderBotArm : DroneArm 
+{
+	Default
+	{
+		DroneArm.LagBehindMovement true;
+	}
+}
+
+// These have to be their own classes because of MODELDEF, as they have their
+// angles offset differently, while maintaining the same pivot point.
+class SpiderBotArm_FL : SpiderBotArm {}
+class SpiderBotArm_FR : SpiderBotArm {}
+class SpiderBotArm_BL : SpiderBotArm {}
+class SpiderBotArm_BR : SpiderBotArm {}
+
+// Mini Spider
+class MiniSpider : DescentDrone replaces LostSoul
+{
+	DroneArm armLeft, armRight;
+	Default
+	{
+		Health 20;
+		Radius 10;
+		Height 15;
+		Mass 400;
+		Speed 4;
+
+		PainChance 128;
+		
+		AttackSound "Drone/Fire/Laser";
+		SeeSound "MiniSpider/See";
+		
+		DescentEnemy.turnSpeed 6.0;
+		DescentEnemy.MoveFriction 0.1;
+		DescentDrone.HeightOffs 10;
+		DescentEnemy.Aggression 0.80;
+		DescentEnemy.ScorePoints 100;
+		DescentEnemy.DodgeChance 60;
+	}
+	
+	override void SetupWeapons()
+	{
+		vector3 armsPivot = (0,0,0);
+		armLeft  = DroneArm.SetupArms(self, "MiniSpiderArm_Left",  armsPivot, (-2,-12, 0));
+		armRight = DroneArm.SetupArms(self, "MiniSpiderArm_Right", armsPivot, (-2, 12, 0));
+	
+		equipWeapon(1, "MiniSpiderLaser", 20, 0, -3, "RedMuzzleFlash", tag:"laser #1"); 
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL A 10 A_DescentLook(lookFOV:90);
+		Loop;
+		
+		See:
+			MODL A 1 A_PlaySeeSound();
+		Chase:
+			MODL A 3 A_DescentChase(25, 1024, 128, 5);
+		Loop;
+			
+		Attack:
+			MODL A 4 A_FireWeapons(1, (0,0,0));
+			MODL A 6 A_RandomReFire(10);
+		goto Chase;
+			
+		Pain:
+			MODL A 6 A_DamageRecoil(4);
+		Goto Spawn;
+		
+		Death:
+			MODL AAAAAAAAAAAAAAAAAAA 1 
+			{
+				A_DamageRecoil(10);
+				RandomExplosions(2, radius);
+			}
+			TNT1 A 0 
+			{
+				armLeft.Eject();
+				armRight.Eject();
+				A_DropItems();
+			}
+			MODL A 4 Spawn("EnemyExplosion", pos);
+		Stop;
+	}
+}
+class MiniSpiderLaser : DroneLaser
+{
+	Default
+	{
+		Scale 0.80;
+		DamageFunction (2);
+		
+		DroneLaser.LaserColor "Red";
+		DroneLaser.CoreColor "#FFBE24";
+	}
+}
+
+class MiniSpiderArm_Left  : SpiderBotArm {}
+class MiniSpiderArm_Right : SpiderBotArm {}

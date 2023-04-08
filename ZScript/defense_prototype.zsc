@@ -1,0 +1,85 @@
+
+class PTMCDrone : DescentDrone replaces Arachnotron
+{
+	Default
+	{
+		Health 80;
+		Radius 20;
+		Height 20;
+		Mass 400;
+		Speed 2;
+		DropItem "EnergyBoost", 30;
+		DropItem "Descent_QuadLasers", 10;
+		
+		PainChance 8;
+		
+		AttackSound "Drone/Fire/Laser";
+		SeeSound "PTMCDrone/See";
+		
+		DescentEnemy.turnSpeed 7.0;
+		DescentEnemy.MoveFriction 0.05;
+		DescentDrone.HeightOffs 10;
+		DescentEnemy.Aggression 0;
+		DescentEnemy.ScorePoints 1500;
+		DescentEnemy.DodgeChance 10;
+		
+		DescentDrone.EyeTics 11;
+		DescentDrone.EyeSpeed 0.3;
+	}
+	
+	override void SetupWeapons()
+	{
+		equipWeapon(1, "PTMCDroneLaser", 25, -15,  5, "GreenMuzzleFlash", tag:"argon cannon #1"); 
+		equipWeapon(2, "PTMCDroneLaser", 25,  15,  5, "GreenMuzzleFlash", tag:"argon cannon #2");
+		equipWeapon(3, "PTMCDroneLaser", 25, -15, -5, "GreenMuzzleFlash", tag:"argon cannon #3");
+		equipWeapon(4, "PTMCDroneLaser", 25,  15, -5, "GreenMuzzleFlash", tag:"argon cannon #4");
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL # 10 A_DescentLook(lookFOV:120);
+		Loop;
+		
+		See:
+			MODL # 1 A_PlaySeeSound();
+		Chase:
+			MODL # 3 A_DescentChase(A_CheckInCooldown() ? 0 : 50, 4096, 300, 20, moveWhileTurning:false);
+		Loop;
+			
+		Attack:
+			MODL # 3 A_FireWeapons(1, (0,2,2)); 
+			MODL # 3 A_FireWeapons(2, (0,2,2)); 
+			MODL # 3 A_FireWeapons(3, (0,2,2)); 
+			MODL # 3 A_FireWeapons(4, (0,2,2)); 
+			MODL # 4 A_RandomRefire(20);
+			MODL # 0 A_SetFireCoolDown(12);
+		goto Chase;
+			
+		Pain:
+			MODL # 12 A_DamageRecoil(3);
+		Goto Spawn;
+		
+		Death:
+			MODL #################### 1 
+			{
+				A_DamageRecoil(6);
+				RandomExplosions(4, radius);
+			}
+			TNT1 A 0 A_DropItems();
+			MODL # 4 Spawn("EnemyExplosion", pos);
+		Stop;
+	}
+}
+
+class PTMCDroneLaser : DroneLaser
+{
+	Default
+	{
+		Scale 0.80;
+		DamageFunction (5);
+		
+		DroneLaser.LaserColor "#15cf28";
+		DroneLaser.CoreColor "#b1efb7";
+	}
+}

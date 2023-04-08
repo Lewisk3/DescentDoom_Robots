@@ -1,0 +1,127 @@
+class SecondaryLifter : DescentDrone
+{
+	bool meleeMode;
+	DroneArm arm;
+
+	Default
+	{
+		Health 80;
+		Radius 20;
+		Height 30;
+		Mass 200;
+		Speed 4;
+		PainChance 20;
+		
+		SeeSound "SecondaryLifter/See";
+		AttackSound "Lifter/Attack";
+		
+		DescentEnemy.turnSpeed 4.0;
+		DescentEnemy.MoveFriction 0.1;
+		DescentDrone.HeightOffs 10;
+		DescentEnemy.Aggression 0;
+		DescentEnemy.ScorePoints 400;
+		DescentEnemy.DodgeChance 30;
+		
+		DescentDrone.EyeTics 5;
+		DescentDrone.EyeSpeed 0.2;
+	}
+	
+	override void SetupWeapons()
+	{
+		vector3 armPivot = (0,0,0);
+		arm  = DroneArm.SetupArms(self, "SecondaryLifterArm",  armPivot, (0,12,-5));
+		equipWeapon(1, "SecondaryLifterLaser", 25, 5, -4, "RedMuzzleFlash", "heavy laser");
+	}
+	
+	override void tick()
+	{
+		super.tick();
+		if(!target) return;
+		
+		double dist = Distance3DSquared(target);
+		
+		double meleeDist = 128*128;
+		if(dist < meleeDist)
+			meleeMode = true;
+		if(dist > (meleeDist * 1.5))
+			meleeMode = false;
+	}
+	
+	void A_SwingArm(double p, double spd)
+	{
+		arm.animateLocalAngles.y = p;
+		arm.animateSpeed = spd;
+	}
+	
+	void A_DualChase(double randomLaserChance = 20)
+	{
+		StateLabel laserState = "Attack.Laser";
+		if( meleeMode && !(random[SECLWRNG](0,100) <= randomLaserChance) )
+			A_DescentChase(100,96,32,10, moveWhileTurning:false);
+		else 
+			A_DescentChase(20,1024,64,30, attackState:laserState); 
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL # 10 A_DescentLook(lookFOV:90);
+		Loop;
+		
+		See:
+			MODL # 1 A_PlaySeeSound();
+		Chase:
+			MODL # 3 A_DualChase();
+		Loop;
+			
+		Attack: // In this case, Melee.
+			TNT1 # 0 
+			{
+				A_PlayAttackSound();
+				A_SwingArm(-90, 0.2);
+			}
+			MODL # 8; 
+			MODL # 6 A_DroneMelee(4, 96, 32);  
+			TNT1 # 0 A_SwingArm(0, 0.2);
+			MODL # 10;
+		goto Chase;
+		
+		Attack.Laser:
+			MODL # 1 
+			{
+				A_StartSound("Drone/Fire/Laser", CHAN_AUTO, CHANF_OVERLAP);
+				A_FireWeapons(1, (0,2,2), playsound:false);
+			}
+			MODL # 4;
+			TNT1 # 0 A_RandomReFire(30, "Attack.Laser");
+		goto Chase;
+			
+		Pain:
+			MODL # 8 A_DamageRecoil(4);
+		Goto Spawn;
+		
+		Death:
+			TNT1 # 0 
+			{
+				arm.Eject();
+			}
+			MODL ############### 1 
+			{
+				A_DamageRecoil(3);
+				RandomExplosions(2, radius);
+			}
+			TNT1 # 0 A_DropItems();
+			MODL # 4 Spawn("EnemyExplosion", pos);
+		Stop;
+	}
+}
+
+class SecondaryLifterLaser : MiniSpiderLaser 
+{
+	Default
+	{
+		DamageFunction (4);
+	}
+}
+
+class SecondaryLifterArm : DroneArm {}

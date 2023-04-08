@@ -1,0 +1,138 @@
+class Miniboss : DescentDrone replaces BaronOfHell
+{
+	DroneArm leftArm, rightArm;
+
+	int lastFiredArm;
+	
+	Default
+	{
+		Health 350;
+		Radius 40;
+		Height 40;
+		Mass 1800;
+		Speed 3;
+		DropItem "EnergyBoost", 50, 1;
+		DropItem "EnergyBoost", 25, 2;
+		DropItem "EnergyBoost", 10, 4;
+		DropItem "Descent_FusionCannon", 10, 1;
+
+		PainChance 0;
+		AttackSound "FusionCannon/Fire";
+		SeeSound "Miniboss/See";
+		
+		DescentEnemy.turnSpeed 5.0;
+		DescentEnemy.MoveFriction 0.06;
+		DescentDrone.HeightOffs 20;
+		DescentEnemy.Aggression 0.1;
+		DescentEnemy.ScorePoints 1500;
+		DescentEnemy.DodgeChance 10;
+		
+		DescentDrone.EyeTics 11;
+		DescentDrone.EyeSpeed 0.2;
+	}
+	
+	override void SetupWeapons()
+	{
+		vector3 armsPivot = (0,0,0);
+		leftArm  = DroneArm.SetupArms(self, "Miniboss_LeftArm",  armsPivot, (0,-27,4));
+		rightArm = DroneArm.SetupArms(self, "Miniboss_RightArm", armsPivot, (0, 27,4));
+		
+		equipWeapon(1, "DSCProj_FusionPlasma", 30, -27, -20, "BlueMuzzleFlash", tag:"fusion cannon #1");
+		equipWeapon(2, "DSCProj_FusionPlasma", 30,  27, -20, "BlueMuzzleFlash", tag:"fusion cannon #2");
+	}
+	
+	void A_SwingArms(int armSide, double p, double spd)
+	{
+		DroneArm animArm = rightArm;
+		if(armSide == 1) animArm = leftArm;
+		
+		animArm.animateLocalAngles.y = p;
+		animArm.animateSpeed = spd;
+	}
+	
+	void A_FireCannon(vector3 spread = (0,0,0))
+	{
+		bool freshFire = !(weapons[0].disabled | weapons[1].disabled);
+	
+		int weapIndex = freshFire ? randompick[BOSSFXRNG](0,1) : A_GetNextCannon()-1;
+		if(weapIndex < 0) return;
+		
+		let curWeap = weapons[weapIndex];
+		
+		A_SwingArms(weapIndex, 20, 0.8);
+		A_FireWeapons(weapIndex+1, spread);
+		
+		lastFiredArm = weapIndex+1;
+		curWeap.disabled = true;
+	}
+	int A_GetNextCannon()
+	{
+		int wID = 0;
+		if(!weapons[0].disabled) 
+			wID = 1;
+		else if(!weapons[1].disabled)
+			wID = 2;
+		
+		return wID;
+	}
+	void A_ResetCannons()
+	{
+		weapons[0].disabled = weapons[1].disabled = false;
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL # 0 A_SetFireCooldown(ceil(2.0 * TICRATE));
+		SpawnLoop:
+			MODL # 10 A_DescentLook(lookFOV:120);
+		Loop;
+		
+		See:
+			MODL # 1 A_PlaySeeSound();
+		Chase:
+			MODL # 3 A_DescentChase(A_CheckInCooldown() ? 0 : 50, 980, 300, 24, false);
+		Loop;
+			
+		Attack: 
+			MODL # 4 A_FireCannon();
+			TNT1 # 0 A_SwingArms(lastFiredArm, 0, 0.2);
+			MODL # 10 A_RandomReFire(A_GetNextCannon() > 0 ? 50 : 0);
+			MODL # 0 
+			{
+				A_SetFireCooldown(ceil(2.0 * TICRATE));
+				A_SwingArms(0, 0, 0.2);
+				A_SwingArms(1, 0, 0.2);
+				A_ResetCannons();
+			}
+		goto Chase;
+		
+		Death:
+			MODL #################################### 1 
+			{
+				A_DamageRecoil(4);
+				RandomExplosions(2, radius);
+			}
+			TNT1 # 0 
+			{
+				leftArm.Eject();
+				rightArm.Eject();
+				A_DropItems();
+			}
+			MODL ### 10 
+			{
+				vector3 posOffs = (
+					frandom[BOSSFXRNG](-1,1),
+					frandom[BOSSFXRNG](-1,1),
+					frandom[BOSSFXRNG](-1,1)
+				) * frandom[BOSSFXRNG](-radius,radius);
+				
+				Spawn("EnemyExplosion", level.vec3offset(pos, posOffs));
+			}
+		Stop;
+	}
+}
+
+// Modeldef shenanigans
+class Miniboss_LeftArm : DroneArm {}
+class Miniboss_RightArm : DroneArm {}

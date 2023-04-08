@@ -1,0 +1,104 @@
+
+class DroneLaser : Actor
+{ 
+	Color col;
+	Color core_col;
+	Property LaserColor : col;
+	Property CoreColor : core_col;
+	
+	Default
+	{	
+		Radius 5;
+		Height 5;
+		Speed 20;
+		
+		Scale 1.0;
+		Alpha 0.75;
+		DamageFunction (10);
+		+BRIGHT;
+		
+		RenderStyle "AddShaded";
+		DroneLaser.LaserColor "#C93936";
+		DroneLaser.CoreColor "#FFBE24";
+		Decal "BulletChip";
+		
+		Projectile;
+	}
+	
+	override void Tick()
+	{	
+		super.Tick();
+		SetShade(col);
+	}
+		
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		DSCProj_LaserCore.SpawnCore(self, core_col);
+	}
+	
+	States
+	{	
+		Spawn:
+			MODL A 1;
+		loop;
+	
+		Crash:
+		Death:
+			TNT1 A 0 
+			{
+				A_StartSound("Missile/Explode", flags:CHANF_OVERLAP, volume:0.3);
+				DSCEffects.ParticlesFX(self, col);
+			}
+		goto Explode; // Goto is used here so that the Explode state can be overwritten.
+		
+		Explode:
+			LS1H ABCDE 3 Bright;
+		stop;
+	}
+}
+
+class RedMuzzleFlash : Actor
+{
+	Default
+	{
+		+NOINTERACTION;
+		+BRIGHT;
+		Scale 0.60;
+	}	
+	
+	States
+	{
+		Spawn:
+			MUZ1 ABC 2;
+		stop;
+	}
+}
+class GreenMuzzleFlash : RedMuzzleFlash
+{
+	States
+	{
+		Spawn:
+			MUZ2 ABC 2;
+		stop;
+	}
+}
+class BlueMuzzleFlash : RedMuzzleFlash
+{
+	States
+	{
+		Spawn:
+			MUZ3 ABC 2;
+		stop;
+	}
+}
+class PurpleMuzzleFlash : RedMuzzleFlash
+{
+	States
+	{
+		Spawn:
+			MUZ4 ABC 2;
+		stop;
+	}
+}
+

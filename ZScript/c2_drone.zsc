@@ -1,0 +1,75 @@
+
+class C2Drone : DescentDrone replaces Shotgunguy
+{
+	Default
+	{
+		Health 60;
+		Radius 20;
+		Height 20;
+		Mass 400;
+		Speed 2;
+		DropItem "ShieldsBoost", 20;
+		
+		PainChance 32;
+		
+		AttackSound "Drone/Fire/Laser";
+		SeeSound "Drone/C2/See";
+		
+		DescentEnemy.turnSpeed 4.0;
+		DescentEnemy.MoveFriction 0.04;
+		DescentDrone.HeightOffs 10;
+		DescentEnemy.Aggression 0.30;
+		DescentEnemy.ScorePoints 200;
+		DescentEnemy.DodgeChance 20;
+	}
+	
+	override void SetupWeapons()
+	{
+		equipWeapon(1, "C2DroneLaser", 5, 0,  5, "BlueMuzzleFlash", tag:"argon welding laser #1"); 
+		equipWeapon(2, "C2DroneLaser", 5, 0, -5, "BlueMuzzleFlash", tag:"argon welding laser #2");
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL A 10 A_DescentLook(lookFOV:120);
+		Loop;
+		
+		See:
+			MODL A 1 A_PlaySeeSound();
+		Chase:
+			MODL A 3 A_DescentChase(50, 4096, 300, 10);
+		Loop;
+			
+		Attack:
+			MODL A 4 A_FireWeapons(randompick[C2DWRNG](1,2), (0,2,0));
+			MODL A 4 A_SetTics(random[C2DWRNG](2,16));
+		goto Chase;
+			
+		Pain:
+			MODL A 12 A_DamageRecoil(2);
+		Goto Spawn;
+		
+		Death:
+			MODL AAAAAAAAAAAAAAAAAAA 1 
+			{
+				A_DamageRecoil(3);
+				RandomExplosions(4, radius);
+			}
+			TNT1 A 0 A_DropItems();
+			MODL A 4 Spawn("EnemyExplosion", pos);
+		Stop;
+	}
+}
+
+class C2DroneLaser : DroneLaser
+{
+	Default
+	{
+		Scale 0.80;
+		DamageFunction (4);
+		
+		DroneLaser.LaserColor "#1b30cf";
+		DroneLaser.CoreColor "#ffffff";
+	}
+}

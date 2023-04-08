@@ -1,0 +1,77 @@
+
+class SmallHulk : DescentDrone replaces DoomImp
+{
+	Default
+	{
+		Health 80;
+		Radius 22;
+		Height 28;
+		Mass 600;
+		Speed 0.6;
+		DropItem "ShieldsBoost", 10;
+
+		PainChance 64;
+		
+		AttackSound "Drone/Fire/Laser";
+		SeeSound "Drone/See";
+		
+		DescentEnemy.turnSpeed 4.2;
+		DescentEnemy.MoveFriction 0.04;
+		DescentDrone.HeightOffs 15;
+		DescentEnemy.Aggression 0.25;
+		DescentEnemy.ScorePoints 500;
+		
+		DescentDrone.EyeTics 5;
+		DescentDrone.EyeSpeed 0.2;
+	}
+	
+	override void SetupWeapons()
+	{
+		equipWeapon(1, "SmallHulkLaser", 20, -15, -10, "GreenMuzzleFlash", tag:"argon laser #1");
+		equipWeapon(2, "SmallHulkLaser", 20,  15, -10, "GreenMuzzleFlash", tag:"argon laser #2");
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL # 10 A_DescentLook(lookFOV:90);
+		Loop;
+		
+		See:
+			MODL A 1 A_PlaySeeSound();
+		Chase:
+			MODL # 3 A_DescentChase(20, 1024, 96, 20);
+		Loop;
+			
+		Attack:
+			MODL # 2 A_FireWeapons(randompick[SmallHulkGuns](1,2), (1,1,0));
+			MODL # 4;
+		Goto Chase;
+			
+		Pain:
+			MODL A 12 A_DamageRecoil(2);
+		Goto Spawn;
+		
+		Death:
+			MODL #################### 1 
+			{
+				A_DamageRecoil(2);
+				RandomExplosions(3, radius);
+			}
+			TNT1 A 0 A_DropItems();
+			MODL # 4 Spawn("EnemyExplosion", pos);
+		Stop;
+	}
+}
+
+class SmallHulkLaser : DroneLaser
+{
+	Default
+	{
+		Scale 0.80;
+		DamageFunction (5);
+		
+		DroneLaser.LaserColor "#15cf28";
+		DroneLaser.CoreColor "#b1efb7";
+	}
+}

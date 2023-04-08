@@ -1,0 +1,99 @@
+
+class C1Drone : DescentDrone replaces Zombieman
+{
+	Default
+	{
+		Health 50;
+		Radius 20;
+		Height 20;
+		Mass 400;
+		Speed 1;
+		DropItem "EnergyBoost", 20;
+
+		PainChance 64;
+		
+		AttackSound "Drone/Fire";
+		SeeSound "Drone/See";
+		
+		DescentEnemy.turnSpeed 3.0;
+		DescentEnemy.MoveFriction 0.03;
+		DescentDrone.HeightOffs 10;
+		DescentEnemy.Aggression 0.12;
+		DescentEnemy.ScorePoints 100;
+		DescentEnemy.DodgeChance 30;
+	}
+	
+	override void SetupWeapons()
+	{
+		equipWeapon(1, "C1DroneWeapon", 20, -15, -3, "RedMuzzleFlash", tag:"pulse rock cutter #1"); 
+		equipWeapon(2, "C1DroneWeapon", 20,  15, -3, "RedMuzzleFlash", tag:"pulse rock cutter #2");
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL A 10 A_DescentLook(lookFOV:90);
+		Loop;
+		
+		See:
+			MODL A 1 A_PlaySeeSound();
+		Chase:
+			MODL A 3 A_DescentChase(30, 1024, 128, 36);
+		Loop;
+			
+		Attack:
+			MODL A 0 A_JumpIf(targetDistance >= (300*300) && random[C1DWRNG](0,100) <= 3, "DropPoximityBomb");
+		Attack.Lasers:
+			MODL A 4 A_FireWeapons(randompick[C1DWRNG](1,2), (0,5,2));
+			MODL A 8 A_SetTics(random[C1DWRNG](4,8));
+		goto Chase;
+			
+		DropPoximityBomb:
+			MODL A 10 FireProj("DSCProj_ProxMine", (0,0,-10), speedMod:0);
+		Goto Chase;
+			
+		Pain:
+			MODL A 12 A_DamageRecoil(5);
+		Goto Spawn;
+		
+		Death:
+			MODL AAAAAAAAAAAAAAAAAAA 1 
+			{
+				A_DamageRecoil(3);
+				RandomExplosions(4, radius);
+			}
+			TNT1 A 0 A_DropItems();
+			MODL A 4 Spawn("EnemyExplosion", pos);
+		Stop;
+	}
+}
+
+
+class C1DroneWeapon : Actor
+{
+	Default
+	{
+		Projectile;
+		Speed 10;
+		
+		Radius 8;
+		Height 8;
+		Scale 0.25;
+		+BRIGHT;
+		
+		DamageFunction (10); // Deal 10 damage flat.
+	}
+	
+	States
+	{
+		Spawn:
+			BLB2 ABCDE 4;
+		loop;
+		
+		Death:
+			TNT1 A 0 A_SetScale(1.0,1.0);
+			EXD3 ABCDE 2;
+			EXD3 E 1 A_FadeOut(0.2);
+		wait;
+	}
+}

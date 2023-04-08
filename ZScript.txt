@@ -1,0 +1,37 @@
+version "4.10.0"
+
+#include "ZScript/dronebase.zsc"
+#include "ZScript/droneweaponbase.zsc"
+#include "ZScript/c1_drone.zsc"
+#include "ZScript/small_hulk.zsc"
+#include "ZScript/c2_drone.zsc"
+#include "ZScript/medium_lifter.zsc"
+#include "ZScript/medium_hulk.zsc"
+#include "ZScript/super_hulk.zsc"
+#include "ZScript/c1_driller.zsc"
+#include "ZScript/spiderbots.zsc"
+#include "ZScript/advanced_lifter.zsc"
+#include "ZScript/secondary_lifter.zsc"
+#include "ZScript/plasma_driller.zsc"
+#include "ZScript/defense_prototype.zsc"
+#include "ZScript/platform_robots.zsc"
+#include "ZScript/miniboss.zsc"
+
+class debugAllDescentEnemies : Actor
+{
+	override void PostBeginPlay()
+	{
+		super.postBeginPlay();
+		
+		double spawnOffs;
+		let spawnDir = Quat.FromAngles(angle, pitch, roll);
+		foreach(act : AllActorClasses)
+		{
+			if( !(act is "DescentEnemy") ) continue;
+			Spawn(act, level.vec3offset(pos, spawnDir * (0,80 * spawnOffs,0)));
+			spawnOffs++;
+		}
+		
+		Destroy();
+	}
+}

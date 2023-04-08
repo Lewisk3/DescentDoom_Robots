@@ -1,0 +1,65 @@
+material texture models/Eyes/RB1EYE0.png { brightmap "models/Eyes/RB1EYE0.png" brightness 1.0 }
+material texture models/Eyes/RB1EYE1.png { brightmap "models/Eyes/RB1EYE1.png" brightness 1.0 }
+material texture models/Eyes/RB1EYE2.png { brightmap "models/Eyes/RB1EYE2.png" brightness 1.0 }
+material texture models/Eyes/RB1EYE3.png { brightmap "models/Eyes/RB1EYE3.png" brightness 1.0 }
+material texture models/Eyes/RB1EYE4.png { brightmap "models/Eyes/RB1EYE4.png" brightness 1.0 }
+material texture models/Eyes/RB1EYE5.png { brightmap "models/Eyes/RB1EYE5.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE0.png { brightmap "models/Eyes/RB2EYE0.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE1.png { brightmap "models/Eyes/RB2EYE1.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE2.png { brightmap "models/Eyes/RB2EYE2.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE3.png { brightmap "models/Eyes/RB2EYE3.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE4.png { brightmap "models/Eyes/RB2EYE4.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE5.png { brightmap "models/Eyes/RB2EYE5.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE6.png { brightmap "models/Eyes/RB2EYE6.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE7.png { brightmap "models/Eyes/RB2EYE7.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE8.png { brightmap "models/Eyes/RB2EYE8.png" brightness 1.0 }
+material texture models/Eyes/RB2EYE9.png { brightmap "models/Eyes/RB2EYE9.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE0.png { brightmap "models/Eyes/RB3EYE0.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE1.png { brightmap "models/Eyes/RB3EYE1.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE2.png { brightmap "models/Eyes/RB3EYE2.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE3.png { brightmap "models/Eyes/RB3EYE3.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE4.png { brightmap "models/Eyes/RB3EYE4.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE5.png { brightmap "models/Eyes/RB3EYE5.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE6.png { brightmap "models/Eyes/RB3EYE6.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE7.png { brightmap "models/Eyes/RB3EYE7.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE8.png { brightmap "models/Eyes/RB3EYE8.png" brightness 1.0 }
+material texture models/Eyes/RB3EYE9.png { brightmap "models/Eyes/RB3EYE9.png" brightness 1.0 }
+
+
+material texture models/Glow/glow02.png {
+	brightmap "models/Glow/glow02.png"
+	brightness 1.0
+}
+material texture models/Glow/glow04.png {
+	brightmap "models/Glow/glow04.png"
+	brightness 1.0
+}
+
+material texture models/RBOT/rbot032.png { shader "shaders/simsun.fp" } 
+material texture models/RBOT/rbot031.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot012.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot060.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot036.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot037.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot035.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot055.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot010.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot011.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot012.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot006.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot008.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot009.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot052.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot053.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot018.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot019.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot020.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot021.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot064.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot058.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot052.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot007.png { shader "shaders/simsun.fp" }
+material texture models/RBOT/rbot006.png { shader "shaders/simsun.fp" }
+material texture models/Materials/steel1.png { shader "shaders/simsun.fp" }
+     
+	 

@@ -1,0 +1,811 @@
+Model C1Drone
+{ 
+	Path "Models"
+	Model 0 "Class_1_Drone.obj" 
+	
+	SurfaceSkin 0 0 "RBOT/rbot031.png" // Body
+	SurfaceSkin 0 1 "RBOT/rbot060.png" // Arms
+	SurfaceSkin 0 2 "RBOT/rbot012.png" // Guns
+	SurfaceSkin 0 3 "RBOT/rbot060.png" // Gun Muzzles
+	SurfaceSkin 0 4 "RBOT/rbot032.png" // Face
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+
+	FrameIndex MODL A 0 0 
+}
+
+Model C2Drone
+{ 
+	Path "Models"
+	Model 0 "Class_2_Drone.obj" 
+	SurfaceSkin 0 0 "RBOT/rbot036.png"  // Body
+	SurfaceSkin 0 1 "RBOT/rbot037.png" // Left Eye
+	SurfaceSkin 0 2 "RBOT/rbot012.png" // Guns
+	SurfaceSkin 0 3 "RBOT/rbot060.png" // Gun Muzzles
+	SurfaceSkin 0 4 "RBOT/rbot037.png" // Right Eye
+	
+	SurfaceSkin 0 5 "RBOT/rbot035.png" // Thruster Exhaust
+	SurfaceSkin 0 6 "Glow/glow02.png" // Thrusters
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset -90
+	RollOffset 180
+
+	FrameIndex MODL A 0 0 
+}
+
+Model SmallHulk
+{
+	Path "Models"
+	Model 0 "Light_Hulk.obj" 
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot012.png"  // Guns
+	SurfaceSkin 0 1 "RBOT/rbot055.png"  // Body
+	SurfaceSkin 0 3 "RBOT/rbot060.png"  // Gun Muzzles
+	SurfaceSkin 0 2 "Eyes/RB1EYE0.png" // Face
+	FrameIndex MODL A 0 0 
+	
+	SurfaceSkin 0 2 "Eyes/RB1EYE1.png" // Face
+	FrameIndex MODL B 0 0 
+	SurfaceSkin 0 2 "Eyes/RB1EYE2.png" // Face
+	FrameIndex MODL C 0 0 
+	SurfaceSkin 0 2 "Eyes/RB1EYE3.png" // Face
+	FrameIndex MODL D 0 0 
+	SurfaceSkin 0 2 "Eyes/RB1EYE4.png" // Face
+	FrameIndex MODL E 0 0 
+	SurfaceSkin 0 2 "Eyes/RB1EYE5.png" // Face
+	FrameIndex MODL F 0 0 
+}
+
+/*
+Model MediumLifter
+{ 
+	Path "Models"
+	Model 0 "Medium_Lifter.obj" 
+	SurfaceSkin 0 0 "RBOT/rbot006.png"  // Body
+	SurfaceSkin 0 1 "RBOT/rbot008.png"  // Face
+	SurfaceSkin 0 2 "RBOT/rbot009.png"  // Claws
+	SurfaceSkin 0 3 "Glow/glow02.png"  // Thrusters
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	FrameIndex MODL A 0 0 
+}
+*/
+
+Model MediumLifter
+{ 
+	Path "Models"
+	Model 0 "Medium_Lifter_Body.obj" 
+	SurfaceSkin 0 0 "RBOT/rbot006.png"  // Body
+	SurfaceSkin 0 1 "RBOT/rbot008.png"  // Face
+	SurfaceSkin 0 2 "Glow/glow02.png"  // Thrusters
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	FrameIndex MODL A 0 0 
+}
+Model CloakedLifter
+{ 
+	Path "Models"
+	Model 0 "Medium_Lifter_Body.obj" 
+	SurfaceSkin 0 0 "RBOT/rbot006.png"  // Body
+	SurfaceSkin 0 1 "RBOT/rbot008.png"  // Face
+	SurfaceSkin 0 2 "Glow/glow02.png"  // Thrusters
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model MediumLifter_LeftArm
+{ 
+	Path "Models"
+	Model 0 "Medium_Lifter_LeftArm.obj" 
+	SurfaceSkin 0 0 "RBOT/rbot006.png"  // Body
+	SurfaceSkin 0 1 "RBOT/rbot009.png"  // Claws
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	FrameIndex MODL A 0 0 
+}
+Model MediumLifter_RightArm
+{ 
+	Path "Models"
+	Model 0 "Medium_Lifter_RightArm.obj" 
+	SurfaceSkin 0 0 "RBOT/rbot006.png"  // Body
+	SurfaceSkin 0 1 "RBOT/rbot009.png"  // Claws
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	FrameIndex MODL A 0 0 
+} 
+
+Model MediumHulk
+{ 
+	Path "Models"
+	Model 0 "Medium_Hulk_Body.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot010.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot011.png"  // Eyes
+	
+	FrameIndex MODL A 0 0 
+}
+Model CloakedHulk
+{ 
+	Path "Models"
+	Model 0 "Medium_Hulk_Body.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot010.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot011.png"  // Eyes
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model MediumHulk_LeftArm
+{ 
+	Path "Models"
+	Model 0 "Medium_Hulk_LeftArm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot010.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot012.png"  // Gun
+	SurfaceSkin 0 2 "RBOT/rbot060.png"  // Gun Muzzle
+	
+	FrameIndex MODL A 0 0 
+}
+Model MediumHulk_RightArm
+{ 
+	Path "Models"
+	Model 0 "Medium_Hulk_RightArm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot010.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot012.png"  // Gun
+	SurfaceSkin 0 2 "RBOT/rbot060.png"  // Gun Muzzle
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model SuperHulk
+{ 
+	Path "Models"
+	Model 0 "Medium_Hulk_Body.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot048.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot049.png"  // Eyes
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model SuperHulk_LeftArm
+{ 
+	Path "Models"
+	Model 0 "Medium_Hulk_LeftArm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot048.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot012.png"  // Gun
+	SurfaceSkin 0 2 "RBOT/rbot060.png"  // Gun Muzzle
+	
+	FrameIndex MODL A 0 0 
+}
+Model SuperHulk_RightArm
+{ 
+	Path "Models"
+	Model 0 "Medium_Hulk_RightArm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot048.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot012.png"  // Gun
+	SurfaceSkin 0 2 "RBOT/rbot060.png"  // Gun Muzzle
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model C1Driller
+{
+	Path "Models"
+	Model 0 "Class_1_Driller.obj" 
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot052.png" // Body
+	SurfaceSkin 0 1 "Eyes/RB2EYE0.png" // Face
+	SurfaceSkin 0 2 "Glow/glow02.png"  // Thrusters
+	SurfaceSkin 0 3 "Materials/steel1.png" // Ears
+	SurfaceSkin 0 4 "RBOT/rbot012.png" // Gun
+	SurfaceSkin 0 5 "RBOT/rbot053.png" // Gun Muzzle
+	SurfaceSkin 0 6 "Materials/steel1.png" // Gun Back
+	
+	FrameIndex MODL A 0 0 
+	
+	SurfaceSkin 0 1 "Eyes/RB2EYE1.png" // Face
+	FrameIndex MODL B 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE2.png" // Face
+	FrameIndex MODL C 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE3.png" // Face
+	FrameIndex MODL D 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE4.png" // Face
+	FrameIndex MODL E 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE5.png" // Face
+	FrameIndex MODL F 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE6.png" // Face
+	FrameIndex MODL G 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE7.png" // Face
+	FrameIndex MODL H 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE8.png" // Face
+	FrameIndex MODL I 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE9.png" // Face
+	FrameIndex MODL J 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE10.png" // Face
+	FrameIndex MODL K 0 0 
+}
+Model CloakedDriller // Modeldef PAIN... Please for the love of god GZDoom, make inheritence a thing for this already!
+{
+	Path "Models"
+	Model 0 "Class_1_Driller.obj" 
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot052.png" // Body
+	SurfaceSkin 0 1 "Eyes/RB2EYE0.png" // Face
+	SurfaceSkin 0 2 "Glow/glow02.png"  // Thrusters
+	SurfaceSkin 0 3 "Materials/steel1.png" // Ears
+	SurfaceSkin 0 4 "RBOT/rbot012.png" // Gun
+	SurfaceSkin 0 5 "RBOT/rbot053.png" // Gun Muzzle
+	SurfaceSkin 0 6 "Materials/steel1.png" // Gun Back
+	
+	FrameIndex MODL A 0 0 
+	
+	SurfaceSkin 0 1 "Eyes/RB2EYE1.png" // Face
+	FrameIndex MODL B 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE2.png" // Face
+	FrameIndex MODL C 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE3.png" // Face
+	FrameIndex MODL D 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE4.png" // Face
+	FrameIndex MODL E 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE5.png" // Face
+	FrameIndex MODL F 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE6.png" // Face
+	FrameIndex MODL G 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE7.png" // Face
+	FrameIndex MODL H 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE8.png" // Face
+	FrameIndex MODL I 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE9.png" // Face
+	FrameIndex MODL J 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE10.png" // Face
+	FrameIndex MODL K 0 0 
+}
+
+Model SpiderRobot
+{ 
+	Path "Models"
+	Model 0 "SpiderRobot_Body.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot021.png"  // Eyes
+	SurfaceSkin 0 2 "RBOT/rbot012.png"  // Guns 
+	SurfaceSkin 0 3 "RBOT/rbot060.png"  // Muzzles
+	SurfaceSkin 0 4 "RBOT/rbot018.png"  // Mid-body
+	
+	FrameIndex MODL A 0 0 
+}
+Model SpiderBotArm_FL
+{ 
+	Path "Models"
+	Model 0 "SpiderRobot_Leg.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 225
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png"  // Body 
+	
+	FrameIndex MODL A 0 0 
+}
+Model SpiderBotArm_FR
+{ 
+	Path "Models"
+	Model 0 "SpiderRobot_Leg.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 135
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png"  // Body 
+	
+	FrameIndex MODL A 0 0 
+}
+Model SpiderBotArm_BL
+{ 
+	Path "Models"
+	Model 0 "SpiderRobot_Leg.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset -45
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png"  // Body 
+	
+	FrameIndex MODL A 0 0 
+}
+Model SpiderBotArm_BR
+{ 
+	Path "Models"
+	Model 0 "SpiderRobot_Leg.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 45
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png"  // Body 
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model MiniSpider
+{ 
+	Path "Models"
+	Model 0 "BabySpider_Body.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot012.png"  // Gun
+	SurfaceSkin 0 2 "RBOT/rbot060.png"  // Muzzle
+	
+	FrameIndex MODL A 0 0 
+}
+Model MiniSpiderArm_Left
+{ 
+	Path "Models"
+	Model 0 "BabySpider_Leg.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png"  // Body 
+	
+	FrameIndex MODL A 0 0 
+}
+Model MiniSpiderArm_Right
+{ 
+	Path "Models"
+	Model 0 "BabySpider_Leg.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 270
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png"  // Body 
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model AdvancedLifter
+{ 
+	Path "Models"
+	Model 0 "Advanced_Lifter_Body.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot018.png" // Body 
+	SurfaceSkin 0 2 "Glow/glow02.png"  // Thruster
+	
+	SurfaceSkin 0 1 "Eyes/RB1EYE0.png" // Eyes
+	FrameIndex MODL A 0 0 
+	SurfaceSkin 0 1 "Eyes/RB1EYE1.png" // Eyes
+	FrameIndex MODL B 0 0 
+	SurfaceSkin 0 1 "Eyes/RB1EYE2.png" // Eyes
+	FrameIndex MODL C 0 0 
+	SurfaceSkin 0 1 "Eyes/RB1EYE3.png" // Eyes
+	FrameIndex MODL D 0 0
+	SurfaceSkin 0 1 "Eyes/RB1EYE4.png" // Eyes
+	FrameIndex MODL E 0 0 
+	SurfaceSkin 0 1 "Eyes/RB1EYE5.png" // Eyes
+	FrameIndex MODL F 0 0 
+}
+
+Model AdvancedLifterArm_TL
+{ 
+	Path "Models"
+	Model 0 "Advanced_Lifter_Arm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png" // Body 
+	FrameIndex MODL A 0 0 
+}
+
+Model AdvancedLifterArm_TR
+{ 
+	Path "Models"
+	Model 0 "Advanced_Lifter_Arm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	PitchOffset 122
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png" // Body 
+	FrameIndex MODL A 0 0 
+}
+
+Model AdvancedLifterArm_BL
+{ 
+	Path "Models"
+	Model 0 "Advanced_Lifter_Arm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	PitchOffset -60
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png" // Body 
+	FrameIndex MODL A 0 0 
+}
+Model AdvancedLifterArm_BR
+{ 
+	Path "Models"
+	Model 0 "Advanced_Lifter_Arm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	PitchOffset 182
+	
+	SurfaceSkin 0 0 "RBOT/rbot020.png" // Body 
+	FrameIndex MODL A 0 0 
+}
+
+Model SecondaryLifter
+{ 
+	Path "Models"
+	Model 0 "Secondary_Lifter_Body.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot018.png" // Body 
+	SurfaceSkin 0 2 "RBOT/rbot012.png" // Gun
+	SurfaceSkin 0 3 "RBOT/rbot060.png" // Muzzle
+	SurfaceSkin 0 4 "Materials/steel1.png" // Gun Base
+	
+	SurfaceSkin 0 1 "Eyes/RB1EYE0.png" // Eyes
+	FrameIndex MODL A 0 0 
+	
+	SurfaceSkin 0 1 "Eyes/RB1EYE1.png" // Eyes
+	FrameIndex MODL B 0 0 
+	SurfaceSkin 0 1 "Eyes/RB1EYE2.png" // Eyes
+	FrameIndex MODL C 0 0 
+	SurfaceSkin 0 1 "Eyes/RB1EYE3.png" // Eyes
+	FrameIndex MODL D 0 0
+	SurfaceSkin 0 1 "Eyes/RB1EYE4.png" // Eyes
+	FrameIndex MODL E 0 0 
+	SurfaceSkin 0 1 "Eyes/RB1EYE5.png" // Eyes
+	FrameIndex MODL F 0 0 
+}
+
+Model SecondaryLifterArm
+{ 
+	Path "Models"
+	Model 0 "Secondary_Lifter_Arm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot018.png" // Body 
+	FrameIndex MODL A 0 0
+}
+
+Model PlasmaDriller
+{
+	Path "Models"
+	Model 0 "Heavy_Plasma_Driller.obj" 
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot052.png" // Body
+	SurfaceSkin 0 2 "RBOT/rbot012.png" // Gun
+	SurfaceSkin 0 3 "RBOT/rbot060.png" // Gun Muzzle
+	SurfaceSkin 0 4 "Glow/glow02.png"  // Thrusters
+	
+	SurfaceSkin 0 1 "Eyes/RB2EYE0.png" // Face
+	FrameIndex MODL A 0 0 
+	
+	SurfaceSkin 0 1 "Eyes/RB2EYE1.png" // Face
+	FrameIndex MODL B 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE2.png" // Face
+	FrameIndex MODL C 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE3.png" // Face
+	FrameIndex MODL D 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE4.png" // Face
+	FrameIndex MODL E 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE5.png" // Face
+	FrameIndex MODL F 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE6.png" // Face
+	FrameIndex MODL G 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE7.png" // Face
+	FrameIndex MODL H 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE8.png" // Face
+	FrameIndex MODL I 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE9.png" // Face
+	FrameIndex MODL J 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE10.png" // Face
+	FrameIndex MODL K 0 0 
+}
+
+Model PTMCDrone
+{
+	Path "Models"
+	Model 0 "Defense_Prototype.obj" 
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot058.png" // Body
+	SurfaceSkin 0 2 "RBOT/rbot012.png" // Gun
+	SurfaceSkin 0 3 "RBOT/rbot053.png" // Gun Muzzle
+
+	SurfaceSkin 0 1 "Eyes/RB2EYE0.png" // Face
+	FrameIndex MODL A 0 0 
+	
+	SurfaceSkin 0 1 "Eyes/RB2EYE1.png" // Face
+	FrameIndex MODL B 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE2.png" // Face
+	FrameIndex MODL C 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE3.png" // Face
+	FrameIndex MODL D 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE4.png" // Face
+	FrameIndex MODL E 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE5.png" // Face
+	FrameIndex MODL F 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE6.png" // Face
+	FrameIndex MODL G 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE7.png" // Face
+	FrameIndex MODL H 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE8.png" // Face
+	FrameIndex MODL I 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE9.png" // Face
+	FrameIndex MODL J 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE10.png" // Face
+	FrameIndex MODL K 0 0 
+}
+
+Model LaserPlatformRobot
+{ 
+	Path "Models"
+	Model 0 "Platform_Robot.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot007.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot012.png"  // Gun
+	SurfaceSkin 0 2 "RBOT/rbot060.png"  // Muzzle
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model MissilePlatformRobot
+{ 
+	Path "Models"
+	Model 0 "Platform_Robot.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot006.png"  // Body 
+	SurfaceSkin 0 1 "RBOT/rbot012.png"  // Gun
+	SurfaceSkin 0 2 "RBOT/rbot060.png"  // Muzzle
+	
+	FrameIndex MODL A 0 0 
+}
+
+Model Miniboss
+{
+	Path "Models"
+	Model 0 "Miniboss_Body.obj" 
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot064.png" // Body
+	SurfaceSkin 0 2 "Materials/metl140.png" // Spikes
+	
+	SurfaceSkin 0 1 "Eyes/RB2EYE0.png" // Face
+	FrameIndex MODL A 0 0 
+	
+	SurfaceSkin 0 1 "Eyes/RB2EYE1.png" // Face
+	FrameIndex MODL B 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE2.png" // Face
+	FrameIndex MODL C 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE3.png" // Face
+	FrameIndex MODL D 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE4.png" // Face
+	FrameIndex MODL E 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE5.png" // Face
+	FrameIndex MODL F 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE6.png" // Face
+	FrameIndex MODL G 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE7.png" // Face
+	FrameIndex MODL H 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE8.png" // Face
+	FrameIndex MODL I 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE9.png" // Face
+	FrameIndex MODL J 0 0 
+	SurfaceSkin 0 1 "Eyes/RB2EYE10.png" // Face
+	FrameIndex MODL K 0 0 
+}
+
+Model Miniboss_LeftArm
+{ 
+	Path "Models"
+	Model 0 "Miniboss_Arm.obj"
+	
+	Scale 6.0 6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot064.png" // Body 
+	SurfaceSkin 0 1 "Materials/missile.png" // Muzzle 
+	FrameIndex MODL A 0 0
+}
+Model Miniboss_RightArm
+{ 
+	Path "Models"
+	Model 0 "Miniboss_Arm.obj"
+	
+	Scale 6.0 -6.0 6.0
+	USEACTORPITCH
+	USEACTORROLL
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	SurfaceSkin 0 0 "RBOT/rbot064.png" // Body 
+	SurfaceSkin 0 1 "Materials/missile.png" // Muzzle 
+	FrameIndex MODL A 0 0
+}

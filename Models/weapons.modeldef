@@ -1,0 +1,72 @@
+Model SmallHulkLaser
+{ 
+   Path "Models"
+   Skin 0 "Textures/laser.png" 
+   Model 0 "Weapons/laser.md3" 
+   Scale 10.0 10.0 10.0
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}
+Model C2DroneLaser
+{ 
+   Path "Models"
+   Skin 0 "Textures/laser.png" 
+   Model 0 "Weapons/laser.md3" 
+   Scale 10.0 10.0 10.0
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}
+Model MiniSpiderLaser
+{ 
+   Path "Models"
+   Skin 0 "Textures/laser.png" 
+   Model 0 "Weapons/laser.md3" 
+   Scale 10.0 10.0 10.0
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}
+Model SecondaryLifterLaser
+{ 
+   Path "Models"
+   Skin 0 "Textures/laser.png" 
+   Model 0 "Weapons/laser.md3" 
+   Scale 10.0 10.0 10.0
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}
+Model PTMCDroneLaser
+{ 
+   Path "Models"
+   Skin 0 "Textures/laser.png" 
+   Model 0 "Weapons/laser.md3" 
+   Scale 10.0 10.0 10.0
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}
+Model PlatformRobotLaser
+{ 
+   Path "Models"
+   Skin 0 "Textures/laser.png" 
+   Model 0 "Weapons/laser.md3" 
+   Scale 10.0 10.0 10.0
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}

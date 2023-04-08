@@ -1,0 +1,67 @@
+class SuperHulk : MediumHulk replaces Revenant
+{
+	Default
+	{
+		Health 200;
+		Radius 30;
+		Height 30;
+		Mass 1100;
+		Speed 0.5;
+		DropItem "Descent_HomMissile", 50, 1;
+		DropItem "Descent_HomMissile", 25, 2;
+		DropItem "Descent_HomMissile", 10, 3;
+		DropItem "Descent_HomMissileBundle", 5, 1;
+
+		PainChance 8;
+		
+		AttackSound "Drone/Fire";
+		SeeSound "MediumHulk/See";
+		
+		DescentEnemy.turnSpeed 4.5;
+		DescentEnemy.MoveFriction 0.06;
+		DescentDrone.HeightOffs 15;
+		DescentEnemy.Aggression 0.1;
+		DescentEnemy.ScorePoints 1500;
+		DescentEnemy.DodgeChance 10;
+	}
+	
+	override void SetupWeapons()
+	{
+		vector3 armsPivot = (0,0,0);
+		leftArm  = DroneArm.SetupArms(self, "SuperHulk_LeftArm",  armsPivot, (-2,-22,7));
+		rightArm = DroneArm.SetupArms(self, "SuperHulk_RightArm", armsPivot, (-2, 22,7));
+		
+		equipWeapon(1, "DSCProj_HomMissile", 25, -23, -14, "RedMuzzleFlash", tag:"missile launcher #1");
+		equipWeapon(2, "DSCProj_HomMissile", 25,  23, -14, "RedMuzzleFlash", tag:"missile launcher #2");
+	}
+	
+	States
+	{
+		Spawn.Look:
+			MODL A 10 A_DescentLook(lookFOV:120);
+		Loop;
+		
+		See:
+			MODL A 1 A_PlaySeeSound();
+		Chase:
+			MODL A 3 A_DescentChase(10, 600, 200, 10, false);
+		Loop;
+			
+		Attack: 
+			TNT1 A 0 
+			{
+				missileSide = randompick[MEDHULKRNG](1,2);
+				
+				A_FireWeapons(missileSide, (0,0,5)); 
+				A_SwingArms(missileSide, 30, 0.8);
+			}
+			MODL AAAA 2;
+			TNT1 A 0 A_SwingArms(missileSide, 0, 0.2);
+			MODL A 10 A_RandomReFire(10);
+		goto Chase;
+	}
+}
+
+// Modeldef shenanigans
+class SuperHulk_LeftArm : DroneArm {}
+class SuperHulk_RightArm : DroneArm {}

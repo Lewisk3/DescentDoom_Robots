@@ -1,0 +1,465 @@
+
+class DescentDrone : DescentEnemy
+{
+	Array<DroneWeaponSlot> weapons;
+	double targetDistance; // This is squared.
+	double hitboxZOffs;
+	double eyeSpeed;
+	int fireCooldown;
+	int eyeTics;
+	
+	Property HeightOffs : hitboxZOffs;
+	Property EyeTics : eyeTics;
+	Property EyeSpeed : eyeSpeed;
+
+	Default
+	{
+		Monster;
+		// +FLOAT 
+		// +FLOATBOB
+		+NOGRAVITY
+		+NOBLOOD
+		+NOINFIGHTING
+		
+		Radius 1;
+		Height 1; 
+	}
+	
+	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double damangle)
+	{
+		let prevTarget = target;
+		int dmg = super.DamageMobJ(inflictor, source, damage, mod, flags, damangle);
+		
+		// Do not target other drones.
+		if(target is "DescentEnemy") 
+			target = prevTarget;
+			
+		return dmg;
+	}
+	
+	
+	state A_RandomRefire(double percentChance, StateLabel refireState = "Attack")
+	{
+		return A_JumpIf(random[DroneRefireRNG](0, 100) <= percentChance, refireState);
+	}
+	
+	static void DebrisBounce(Actor debris)
+	{
+		FLineTraceData lt;
+		debris.LineTrace(debris.angle, debris.radius*2, debris.pitch, 0, data:lt); // TRF_THRUACTORS
+		Line wall = lt.HitLine;
+		if( !wall || (lt.HitType != TRACE_HITWALL) ) return;
+		
+		// Thanks to https://stackoverflow.com/questions/573084/how-to-calculate-bounce-angle
+		vector3 dir = Quat.FromAngles(debris.angle, debris.pitch, debris.roll) * (1,0,0);
+		vector3 normal = (-wall.delta.Y, wall.delta.X, 0).Unit();
+		if (!lt.LineSide) normal *= -1;
+	   
+		vector3 u = (dir dot normal) * normal;
+		vector3 w = dir - u;
+		vector3 bounce = w - u;
+		
+		double debrisAngle = atan2(bounce.y, bounce.x);
+		double debrisPitch = -asin(bounce.z);
+	
+		debris.angle += frandom[DroneDebrisRNG](-30,30);
+		debris.pitch += frandom[DroneDebrisRNG](-30,30);
+		debris.roll  += frandom[DroneDebrisRNG](-30,30);
+		debris.vel = Quat.FromAngles(debrisAngle, debrisPitch, debris.roll) * (debris.vel.Length()*0.7,0,0);
+	}
+	
+	virtual void SetupWeapons() {}
+	
+	Actor A_DroneMelee(double dmg, double radius, double width, Name damageType = "Melee", double angleOffs = 0, double pitchOffs = 0, double precision = 8)
+	{
+		double aimz = WorldOffset.z;
+		
+		FLineTraceData lt;
+		LineTrace(angle + angleOffs, radius, pitch + pitchOffs, 0, aimz, data:lt);
+		Actor victim = lt.HitActor;
+		
+		int checks = ceil((width*0.5) / precision);
+		int aimAngle = -checks;
+		while (aimAngle++ < checks && !victim)
+		{
+			LineTrace(angle + (aimAngle * precision) + angleOffs, radius, pitch + pitchOffs, 0, aimz, data:lt);
+			victim = lt.hitActor;
+		}
+			
+		if(victim) victim.DamageMobJ(self, self, dmg, damageType, flags:0, victim.AngleTo(self));
+		return victim;
+	}
+	
+	void RandomExplosions(int odds = 6, double dist = 35, class<Actor> explosions = "MiniExplosion")
+	{
+		if( random[DroneExplosions](0,odds) == odds )
+		{
+			vector3 minipos = (
+				frandom[DroneExplosions](-1,1),
+				frandom[DroneExplosions](-1,1),
+				frandom[DroneExplosions](-1,1)
+			) * dist;
+			let expl = Spawn(explosions, pos + minipos);
+			if(expl) expl.A_SetScale(frandom[DroneExplosions](0.30,0.75));
+		}
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		SetupWeapons();
+		WorldOffset.z = hitboxZOffs;
+	}
+	
+	void A_PlaySeeSound()
+	{
+		A_StartSound(seesound, CHAN_AUTO, CHANF_OVERLAP);
+	}
+	void A_PlayAttackSound()
+	{
+		A_StartSound(attacksound, CHAN_BODY, CHANF_OVERLAP);
+	}
+	
+	void equipWeapon(int group, class<Actor> weaponType, double fw, double lr, double ud, class<Actor> muzzleFlash = "", string tag = "untagged")
+	{
+		let weap = new("DroneWeaponSlot");
+		weap.group = group;
+		weap.projectileType = weaponType;
+		weap.firePos = (fw, lr, ud);
+		weap.tag = tag;
+		weap.muzzleFlash = muzzleFlash;
+		
+		weap.slotnum = weapons.Size();
+		weapons.Push(weap);
+	}
+	
+	void dequipWeapon(int slotnum)
+	{
+		let weap = weapons[slotnum];
+		if(weap) weap.Destroy();
+		weapons.Delete(slotnum);
+	}
+	
+	int findWeaponSlotByTag(string tag)
+	{
+		for(int i = 0; i < weapons.Size(); i++)
+		{
+			let weap = weapons[i];
+			if(weap.tag != tag) continue;
+			return i;
+		}
+		
+		return -1;
+	}
+	
+	void getWeaponsByGroup(int group, out Array<DroneWeaponSlot> results)
+	{
+		foreach(weap : weapons)
+		{
+			if(weap.group != group) continue;
+			results.Push(weap);
+		}
+	}
+	
+	Actor FireProj(class<Actor> type, vector3 offs, vector3 viewOffs = (0,0,0), vector3 spreadOffs = (0,0,0), double speedMod = 1.0)
+	{
+		let spawnPos = DSCMath.V3Offset(
+			angle + viewOffs.x, pitch + viewOffs.y, roll + viewOffs.z, 
+			offs.x, offs.y, offs.z, 1.
+		);
+		
+		vector3 fromPos = level.vec3offset(pos, WorldOffset);
+		let proj = Actor.Spawn(type, level.vec3offset(fromPos, spawnPos));
+		if(proj)
+		{
+			proj.angle = angle + frandom[FireProjSpread](-spreadOffs.x, spreadOffs.x);
+			proj.pitch = pitch + frandom[FireProjSpread](-spreadOffs.y, spreadOffs.y);
+			proj.roll  = roll + frandom[FireProjSpread](-spreadOffs.z, spreadOffs.z);
+			proj.target = self;
+			
+			// Forward facing vector in direction of angles
+			Quat dir = Quat.FromAngles(proj.angle, proj.pitch, proj.roll);
+			proj.vel = dir * (proj.default.Speed * speedMod,0,0);
+		}
+		
+		return proj;
+	}
+	
+	void A_FireWeapons(int group, vector3 spread = (0,0,0), double speedMod = 1.0, out Array<Actor> projectilesFired = NULL, bool playsound = true, bool disableDamageScaling = true)
+	{
+		foreach(weap : weapons)
+		{
+			if(weap.group != group || weap.disabled) continue;
+			if(weap.muzzleFlash) 
+			{
+				vector3 muzzlePos = curRotation * (weap.firePos.x, -weap.firePos.y, weap.firePos.z);
+				vector3 fromPos = level.vec3offset(pos, WorldOffset);
+				muzzlePos = level.vec3offset(fromPos, muzzlePos);
+				
+				Spawn(weap.muzzleFlash, muzzlePos);
+			}
+			
+			let proj = FireProj(weap.projectileType, weap.firePos, spreadOffs:spread, speedMod);
+			let dscProj = DSCProjectile(proj);
+			if(proj)
+			{
+				if(dscProj) dscProj.dontScaleDamage = disableDamageScaling;
+				if(projectilesFired) projectilesFired.Push(proj);
+			}
+		}
+		
+		if(playsound) A_PlayAttackSound();
+	}
+	
+	void A_DamageRecoil(double str)
+	{
+		A_ViewRecoil(
+			frandom[DroneDMGRecoil](-str, str),
+			frandom[DroneDMGRecoil](-str, str),
+			frandom[DroneDMGRecoil](-str, str)
+		);
+	}
+	
+	void A_DropItems(vector3 spawnOffs = (0,0,0), bool zerogravity = true)
+	{
+		vector3 spawnPos = DSCMath.V3Offset(angle, pitch, roll, spawnOffs.x, spawnOffs.y, spawnOffs.z, 1.);
+		spawnPos = level.vec3offset(pos, spawnPos);
+		Quat spawnDir = curRotation;
+		
+		DropItem items = GetDropItems();
+		for(DropItem curItem = items; curItem; curItem = curItem.Next)
+		{
+			if(random[DRONEITEMRNG](1,100) > curItem.Probability) continue;
+			
+			class<Actor> drop = curItem.Name;
+			if(!drop) 
+			{
+				console.printf("\c[Red]DropItems Error :> Unknown item \"%s\". \c[Gray] (Calling class: %s)\c[White]", curItem.Name, getClassName());
+				continue;
+			}
+			
+			for(int i = 0; i < max(1,curItem.Amount); i++) 
+			{
+				let obj = Spawn(drop, spawnPos);
+				if(obj)
+				{
+					obj.bNOGRAVITY |= zerogravity;
+					
+					vector3 spawnVel = (
+						frandom[DRONEITEMRNG](-1,1),
+						frandom[DRONEITEMRNG](-1,1),
+						frandom[DRONEITEMRNG](-1,1)
+					) * (frandom[DRONEITEMRNG](-3,3) + vel.Length());
+					
+					obj.vel = spawnDir * spawnVel;
+				}
+			}
+		}
+	}
+	
+	void A_SetFireCooldown(int amt)
+	{
+		fireCooldown = amt;
+	}
+	bool A_CheckInCooldown()
+	{
+		return fireCooldown > 0;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(target) targetDistance = Distance3DSquared(target);
+		bNOGRAVITY = default.bNOGRAVITY; // Ensure this doesn't get cleared on death.
+
+		if(fireCooldown > 0) fireCooldown--;		
+		if(eyeTics > 0 && eyeSpeed > 0)
+		{
+			/* Oscilating
+				double phase = (DSCMath.PI/4) * (level.time * 15);
+				frame = ceil(2 + cos(phase) * 2);
+			*/
+			
+			// Animate Eyes
+			double phase = (level.time * eyeSpeed)%(eyeTics-1);
+			frame = phase;
+		}
+		
+		/*
+		bool attacking = InStateSequence(curState, ResolveState("Attack"));
+		bool looking = InStateSequence(curState, ResolveState("See"));
+		bool chasing = InStateSequence(curState, ResolveState("Chase"));
+		bool pain = InStateSequence(curState, ResolveState("Pain"));
+		bool dying = InStateSequence(curState, ResolveState("Death")); 
+		
+		string behaviorFlags = "";
+		behaviorFlags.AppendFormat("%s", attacking ? "A" : "-");
+		behaviorFlags.AppendFormat("%s", looking ? "L" : "-");
+		behaviorFlags.AppendFormat("%s", chasing ? "C" : "-");
+		behaviorFlags.AppendFormat("%s", pain  ? "P" : "-");
+		behaviorFlags.AppendFormat("%s", dying ? "D" : "-");
+		string className = getClassName();
+		
+		if(curState)
+			console.printf("%s -> StatePtr: %p [%s] Tics > %d", className, curState, behaviorFlags, curState.Tics);
+		else
+			console.printf("%s -> NO-STATE", className);
+		*/	
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1; 
+			MODL A 1 {	
+				return ResolveState("Spawn.Look");
+			}
+		stop;
+		
+		// All looking should be done here to prevent potential state infinite recursion.
+		Spawn.Look:
+			MODL A 1;
+		loop;
+	}
+}
+
+class DroneWeaponSlot : Object
+{
+	int slotnum;
+	int group;
+	bool disabled;
+	vector3 firePos; // fw, lr, ud
+	string Tag;
+	class<Actor> projectileType;
+	class<Actor> muzzleFlash;
+}
+
+class DroneArm : Actor
+{
+	vector3 angleOffs, localAngleOffs, pivotOffs, posOffs;
+	vector3 animateAngles, animateLocalAngles;
+	bool respondToVelocity;
+	double animateSpeed;
+	
+	Property LagBehindMovement : respondToVelocity;
+
+	Default
+	{
+		Radius 6;
+		Height 8;
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		BounceType "Doom";
+		BounceCount 6; 
+		+BOUNCEONACTORS;
+		DroneArm.LagBehindMovement false;
+		
+		Health 10;
+	}
+	
+	static DroneArm SetupArms(Actor parent, class<DroneArm> armType, vector3 pivotOffs, vector3 posOffs)
+	{
+		let arms = DroneArm(Spawn(armType));
+		if(arms)
+		{
+			arms.master = parent;
+			arms.angleOffs = (0,0,0);
+			arms.pivotOffs = pivotOffs;
+			arms.posOffs = posOffs;
+			arms.animateSpeed = 0.2;
+		}
+		return arms;
+	}
+	
+	override void tick()
+	{
+		super.Tick();
+		
+		vel *= 0.999;
+				
+		if(!master) 
+		{
+			// Make actor interactable again.
+			bSHOOTABLE = true;
+			bNOINTERACTION = false;
+			bNOGRAVITY = true;
+			if(bNOBLOCKMAP) A_ChangeLinkFlags(0,0);
+			RestoreRenderStyle();
+	
+			// Destroy actor if it's just been floating around being useless.
+			if( (getAge() > 35*10) && health > 0) 
+			{
+				health = 0;
+				SetStateLabel("Death");
+			}
+			return;
+		}
+		WorldOffset = master.WorldOffset;
+		
+		angleOffs = DSCMath.Lerp3D(angleOffs, animateAngles, animateSpeed);
+		localAngleOffs = DSCMath.Lerp3D(localAngleOffs, animateLocalAngles, animateSpeed);
+		
+		vector3 toAngles = (
+			master.angle + angleOffs.x, 
+			master.pitch + angleOffs.y, 
+			master.roll  + angleOffs.z
+		);
+		
+		// Respond to velocity
+		let droneMaster = DescentDrone(master);
+		if(droneMaster && respondToVelocity) 
+		{
+			vector3 mFW = droneMaster.curRotation * (1.0,0,0);
+			vector3 mLR = droneMaster.curRotation * (0,1.0,0);
+			vector3 mUD = droneMaster.curRotation * (0,0,1.0);
+			
+			vector3 velrot = (
+				droneMaster.vel dot mFW,
+				0, 
+				droneMaster.vel dot mLR //droneMaster.vel dot mUD // Unused
+			) * -4;
+			
+			animateLocalAngles = velrot;
+		}
+		
+		A_SetRenderStyle(master.alpha, master.GetRenderStyle());
+		Quat toDir = Quat.FromAngles(toAngles.x, toAngles.y, toAngles.z);
+		
+		// Local angles
+		let localAngleInput = Quat.FromAngles(localAngleOffs.x, localAngleOffs.y, localAngleOffs.z);
+		toDir *= localAngleInput;
+		
+		Quat masterDir = Quat.FromAngles(master.angle, master.pitch, master.roll);
+		vector3 masterPos = level.vec3offset(master.pos, masterDir * pivotOffs);
+		
+		SetOrigin(level.vec3offset(masterPos, toDir * posOffs), true);
+		toAngles = DSCMath.getQuatAngles(toDir);
+		
+		A_SetAngle(toAngles.x, SPF_INTERPOLATE);
+		A_SetPitch(toAngles.y, SPF_INTERPOLATE);
+		A_SetRoll (toAngles.z, SPF_INTERPOLATE);
+		
+	}
+	
+	void Eject()
+	{
+		vel = (
+			frandom[LifterDebris](-1,1),
+			frandom[LifterDebris](-1,1),
+			frandom[LifterDebris](-1,1)
+		) * frandom[LifterDebris](-12,12);
+		
+		master = NULL;
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+		
+		Death:
+			TNT1 A 1 Spawn("EnemyExplosion", pos);			
+		stop;
+	}
+}
