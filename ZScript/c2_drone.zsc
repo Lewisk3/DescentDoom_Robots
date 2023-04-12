@@ -3,7 +3,7 @@ class C2Drone : DescentDrone replaces Shotgunguy
 {
 	Default
 	{
-		Health 60;
+		Health 35;
 		Radius 20;
 		Height 20;
 		Mass 400;
@@ -32,7 +32,7 @@ class C2Drone : DescentDrone replaces Shotgunguy
 	States
 	{
 		Spawn.Look:
-			MODL A 10 A_DescentLook(lookFOV:120);
+			MODL A 10 A_DescentLook(lookFOV:100);
 		Loop;
 		
 		See:
@@ -67,7 +67,7 @@ class C2DroneLaser : DroneLaser
 	Default
 	{
 		Scale 0.80;
-		DamageFunction (4);
+		DamageFunction (3);
 		
 		DroneLaser.LaserColor "#1b30cf";
 		DroneLaser.CoreColor "#ffffff";

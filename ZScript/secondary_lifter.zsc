@@ -120,7 +120,7 @@ class SecondaryLifterLaser : MiniSpiderLaser
 {
 	Default
 	{
-		DamageFunction (4);
+		DamageFunction (3);
 	}
 }
 

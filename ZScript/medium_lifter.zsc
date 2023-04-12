@@ -6,7 +6,7 @@ class MediumLifter : DescentDrone replaces Demon
 
 	Default
 	{
-		Health 100;
+		Health 80;
 		Radius 20;
 		Height 20;
 		Mass 300;

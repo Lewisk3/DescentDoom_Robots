@@ -109,6 +109,10 @@ class DescentDrone : DescentEnemy
 		super.PostBeginPlay();
 		SetupWeapons();
 		WorldOffset.z = hitboxZOffs;
+		toAngles.z = frandom[DSCDRONERNG](0,360);
+		double secHeight = abs(ceilingz - floorz);
+		double zspawn = frandom(0, secHeight - (height*1.25));
+		SetOrigin((pos.xy, pos.z+zspawn), true);
 	}
 	
 	void A_PlaySeeSound()
@@ -185,7 +189,7 @@ class DescentDrone : DescentEnemy
 		return proj;
 	}
 	
-	void A_FireWeapons(int group, vector3 spread = (0,0,0), double speedMod = 1.0, out Array<Actor> projectilesFired = NULL, bool playsound = true, bool disableDamageScaling = true)
+	void A_FireWeapons(int group, vector3 spread = (0,0,0), double speedMod = 1.0, out Array<Actor> projectilesFired = NULL, bool playsound = true, bool disableDamageScaling = true, double damageOverride = -1)
 	{
 		foreach(weap : weapons)
 		{
@@ -203,7 +207,11 @@ class DescentDrone : DescentEnemy
 			let dscProj = DSCProjectile(proj);
 			if(proj)
 			{
-				if(dscProj) dscProj.dontScaleDamage = disableDamageScaling;
+				if(dscProj)
+				{
+					dscProj.dontScaleDamage = disableDamageScaling;
+					dscProj.SetExactDamage(damageOverride);
+				}
 				if(projectilesFired) projectilesFired.Push(proj);
 			}
 		}

@@ -5,7 +5,7 @@ class AdvancedLifter : DescentDrone
 	
 	Default
 	{
-		Health 120;
+		Health 100;
 		Radius 20;
 		Height 20;
 		Mass 300;

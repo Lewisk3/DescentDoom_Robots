@@ -3,7 +3,7 @@ class PTMCDrone : DescentDrone replaces Arachnotron
 {
 	Default
 	{
-		Health 80;
+		Health 70;
 		Radius 20;
 		Height 20;
 		Mass 400;
@@ -77,7 +77,7 @@ class PTMCDroneLaser : DroneLaser
 	Default
 	{
 		Scale 0.80;
-		DamageFunction (5);
+		DamageFunction (3);
 		
 		DroneLaser.LaserColor "#15cf28";
 		DroneLaser.CoreColor "#b1efb7";

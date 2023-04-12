@@ -6,7 +6,7 @@ class Miniboss : DescentDrone replaces BaronOfHell
 	
 	Default
 	{
-		Health 350;
+		Health 400;
 		Radius 40;
 		Height 40;
 		Mass 1800;
@@ -85,7 +85,7 @@ class Miniboss : DescentDrone replaces BaronOfHell
 		Spawn.Look:
 			MODL # 0 A_SetFireCooldown(ceil(2.0 * TICRATE));
 		SpawnLoop:
-			MODL # 10 A_DescentLook(lookFOV:120);
+			MODL # 10 A_DescentLook(lookFOV:150);
 		Loop;
 		
 		See:

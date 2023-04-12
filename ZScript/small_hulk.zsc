@@ -3,7 +3,7 @@ class SmallHulk : DescentDrone replaces DoomImp
 {
 	Default
 	{
-		Health 80;
+		Health 70;
 		Radius 22;
 		Height 28;
 		Mass 600;
@@ -34,7 +34,7 @@ class SmallHulk : DescentDrone replaces DoomImp
 	States
 	{
 		Spawn.Look:
-			MODL # 10 A_DescentLook(lookFOV:90);
+			MODL # 10 A_DescentLook(lookFOV:100);
 		Loop;
 		
 		See:

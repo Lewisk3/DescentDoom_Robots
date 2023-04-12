@@ -3,7 +3,7 @@ class PlasmaDriller : DescentDrone replaces Fatso
 {
 	Default
 	{
-		Health 130;
+		Health 150;
 		Radius 30;
 		Height 30;
 		Mass 400;
@@ -37,7 +37,7 @@ class PlasmaDriller : DescentDrone replaces Fatso
 	States
 	{
 		Spawn.Look:
-			MODL # 10 A_DescentLook(lookFOV:160);
+			MODL # 10 A_DescentLook(lookFOV:100);
 		Loop;
 		
 		See:
@@ -47,10 +47,10 @@ class PlasmaDriller : DescentDrone replaces Fatso
 		Loop;
 			
 		Attack:
-			MODL # 2 A_FireWeapons(1, (0,2,2));
-			MODL # 2 A_FireWeapons(2, (0,2,2));
-			MODL # 2 A_FireWeapons(1, (0,2,2));
-			MODL # 2 A_FireWeapons(2, (0,2,2));
+			MODL # 2 A_FireWeapons(1, (0,2,2), damageOverride:7);
+			MODL # 2 A_FireWeapons(2, (0,2,2), damageOverride:7);
+			MODL # 2 A_FireWeapons(1, (0,2,2), damageOverride:7);
+			MODL # 2 A_FireWeapons(2, (0,2,2), damageOverride:7);
 			MODL # 6;
 			MODL # 8 A_RandomReFire(50);
 		goto Chase;

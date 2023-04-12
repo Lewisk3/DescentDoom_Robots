@@ -5,7 +5,7 @@ class SpiderRobot : DescentDrone replaces PainElemental
 
 	Default
 	{
-		Health 130;
+		Health 110;
 		Radius 30;
 		Height 45;
 		Mass 800;
@@ -45,7 +45,7 @@ class SpiderRobot : DescentDrone replaces PainElemental
 	States
 	{
 		Spawn.Look:
-			MODL A 10 A_DescentLook(lookFOV:160);
+			MODL A 10 A_DescentLook(lookFOV:90);
 		Loop;
 		
 		See:
@@ -134,7 +134,7 @@ class MiniSpider : DescentDrone replaces LostSoul
 	States
 	{
 		Spawn.Look:
-			MODL A 10 A_DescentLook(lookFOV:90);
+			MODL A 10 A_DescentLook(lookFOV:170);
 		Loop;
 		
 		See:

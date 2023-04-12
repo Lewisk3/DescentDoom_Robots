@@ -3,7 +3,7 @@ class C1Drone : DescentDrone replaces Zombieman
 {
 	Default
 	{
-		Health 50;
+		Health 25;
 		Radius 20;
 		Height 20;
 		Mass 400;
@@ -32,7 +32,7 @@ class C1Drone : DescentDrone replaces Zombieman
 	States
 	{
 		Spawn.Look:
-			MODL A 10 A_DescentLook(lookFOV:90);
+			MODL A 10 A_DescentLook(lookFOV:120);
 		Loop;
 		
 		See:
@@ -81,7 +81,7 @@ class C1DroneWeapon : Actor
 		Scale 0.25;
 		+BRIGHT;
 		
-		DamageFunction (10); // Deal 10 damage flat.
+		DamageFunction (8); // Deal 8 damage flat.
 	}
 	
 	States

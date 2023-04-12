@@ -1,7 +1,7 @@
 version "4.10.0"
 
-#include "ZScript/dronebase.zsc"
-#include "ZScript/droneweaponbase.zsc"
+#include "ZScript/Base/dronebase.zsc"
+#include "ZScript/Base/droneweaponbase.zsc"
 #include "ZScript/c1_drone.zsc"
 #include "ZScript/small_hulk.zsc"
 #include "ZScript/c2_drone.zsc"

@@ -6,15 +6,15 @@ class MediumHulk : DescentDrone replaces HellKnight
 
 	Default
 	{
-		Health 130;
+		Health 100;
 		Radius 30;
 		Height 30;
 		Mass 1100;
 		Speed 0.6;
-		DropItem "Descent_ConMissile", 50, 1;
-		DropItem "Descent_ConMissile", 25, 2;
-		DropItem "Descent_ConMissile", 10, 3;
-		DropItem "Descent_ConMissileBundle", 5, 1;
+		DropItem "Descent_ConMissile", 30, 1;
+		DropItem "Descent_ConMissile", 15, 2;
+		DropItem "Descent_ConMissile", 5, 3;
+		DropItem "Descent_ConMissileBundle", 2, 1;
 
 		PainChance 8;
 		
@@ -56,7 +56,7 @@ class MediumHulk : DescentDrone replaces HellKnight
 	States
 	{
 		Spawn.Look:
-			MODL A 10 A_DescentLook(lookFOV:120);
+			MODL A 10 A_DescentLook(lookFOV:135);
 		Loop;
 		
 		See:
@@ -70,7 +70,7 @@ class MediumHulk : DescentDrone replaces HellKnight
 			{
 				missileSide = randompick[MEDHULKRNG](1,2);
 				
-				A_FireWeapons(missileSide, (0,0,5)); 
+				A_FireWeapons(missileSide, (0,0,5), damageOverride:20); 
 				A_SwingArms(missileSide, 20, 0.8);
 			}
 			MODL AAAA 2;
@@ -104,6 +104,7 @@ class CloakedHulk : MediumHulk
 {
 	Default
 	{
+		Health 150;
 		DropItem "Descent_ConMissile", 50, 1;
 		DropItem "Descent_ConMissile", 25, 2;
 		DropItem "Descent_ConMissile", 10, 3;

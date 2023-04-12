@@ -2,7 +2,7 @@ class C1Driller : DescentDrone replaces Chaingunguy
 {
 	Default
 	{
-		Health 90;
+		Health 50;
 		Radius 20;
 		Height 26;
 		Mass 500;
@@ -33,7 +33,7 @@ class C1Driller : DescentDrone replaces Chaingunguy
 	States
 	{
 		Spawn.Look:
-			MODL # 10 A_DescentLook(lookFOV:100);
+			MODL # 10 A_DescentLook(lookFOV:90);
 		Loop;
 		
 		See:
@@ -69,7 +69,7 @@ class CloakedDriller : C1Driller replaces Archvile
 {
 	Default
 	{
-		Health 150;
+		Health 100;
 		DropItem "Descent_VulcanCannon", 15;
 		DropItem "CloakDevice", 5, 1;
 		SeeSound "Driller/Cloaked/See";
